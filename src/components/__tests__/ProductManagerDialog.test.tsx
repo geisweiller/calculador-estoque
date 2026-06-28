@@ -1,5 +1,5 @@
 import { FluentProvider, webLightTheme } from '@fluentui/react-components'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { ProductManagerDialog } from '../ProductManagerDialog'
@@ -33,10 +33,14 @@ describe('ProductManagerDialog', () => {
     await waitFor(() =>
       expect(screen.getByText('Adicionar')).toBeInTheDocument(),
     )
-    await user.type(screen.getByLabelText('Nome do novo produto'), 'MANTA 100')
+    fireEvent.change(screen.getByLabelText('Nome do novo produto'), {
+      target: { value: 'MANTA 100' },
+    })
     await user.click(screen.getByText('Adicionar'))
 
-    expect(props.onAddProduct).toHaveBeenCalledWith('MANTA 100')
+    await waitFor(() =>
+      expect(props.onAddProduct).toHaveBeenCalledWith('MANTA 100'),
+    )
   })
 
   it('removes a product from its row', async () => {
