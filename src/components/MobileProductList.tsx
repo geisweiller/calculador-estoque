@@ -14,6 +14,11 @@ const useStyles = makeStyles({
     '@media (max-width: 720px)': {
       display: 'grid',
       gap: '8px',
+      height: '100%',
+      minHeight: 0,
+      overflow: 'auto',
+      overscrollBehavior: 'contain',
+      paddingRight: '2px',
     },
   },
   row: {

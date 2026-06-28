@@ -25,8 +25,9 @@ type InventoryTableProps = {
 
 const useStyles = makeStyles({
   wrap: {
+    height: '100%',
+    minHeight: 0,
     overflow: 'auto',
-    maxHeight: 'calc(100vh - 260px)',
     backgroundColor: '#ffffff',
     ...shorthands.border('1px', 'solid', '#dfe5da'),
     ...shorthands.borderRadius('8px'),

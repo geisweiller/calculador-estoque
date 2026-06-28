@@ -11,24 +11,42 @@ import { useQuantities } from './hooks/useQuantities'
 
 const useStyles = makeStyles({
   app: {
-    minHeight: '100vh',
+    height: '100dvh',
+    overflow: 'hidden',
     backgroundColor: '#f7f8f5',
     color: tokens.colorNeutralForeground1,
   },
   shell: {
+    display: 'flex',
+    flexDirection: 'column',
     width: 'min(1180px, calc(100% - 32px))',
+    height: '100%',
     marginRight: 'auto',
     marginLeft: 'auto',
     paddingTop: '28px',
     paddingBottom: '32px',
+    minHeight: 0,
+    '@media (max-width: 720px)': {
+      width: 'calc(100% - 20px)',
+      paddingTop: '14px',
+      paddingBottom: '12px',
+    },
   },
   workArea: {
     display: 'grid',
     gridTemplateColumns: 'minmax(0, 1fr) minmax(300px, 380px)',
     gap: '16px',
+    flex: 1,
     alignItems: 'start',
+    minHeight: 0,
+    overflow: 'hidden',
     '@media (max-width: 980px)': {
       gridTemplateColumns: '1fr',
+    },
+    '@media (max-width: 720px)': {
+      gridTemplateRows: 'minmax(0, 1fr) auto',
+      alignItems: 'stretch',
+      gap: '10px',
     },
   },
 })

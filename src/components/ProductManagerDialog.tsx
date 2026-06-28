@@ -13,7 +13,6 @@ import {
 } from '@fluentui/react-components'
 import {
   Add24Regular,
-  ArrowDownload24Regular,
   ArrowUpload24Regular,
   Delete24Regular,
   Dismiss24Regular,
@@ -63,7 +62,7 @@ const useStyles = makeStyles({
   },
   form: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(0, 1fr) auto auto auto',
+    gridTemplateColumns: 'minmax(0, 1fr) auto auto',
     gap: '8px',
     marginBottom: '12px',
     '@media (max-width: 640px)': {
@@ -123,18 +122,6 @@ export function ProductManagerDialog({
       setNewProductName('')
       setMessage('')
     }
-  }
-
-  const exportProducts = () => {
-    const blob = new Blob([JSON.stringify(products, null, 2)], {
-      type: 'application/json;charset=utf-8',
-    })
-    const url = URL.createObjectURL(blob)
-    const anchor = document.createElement('a')
-    anchor.href = url
-    anchor.download = 'produtos-estoque.json'
-    anchor.click()
-    URL.revokeObjectURL(url)
   }
 
   const importProducts = async (file: File | undefined) => {
@@ -227,9 +214,6 @@ export function ProductManagerDialog({
                   void importProducts(event.target.files?.[0])
                 }}
               />
-              <Button icon={<ArrowDownload24Regular />} onClick={exportProducts}>
-                Exportar
-              </Button>
             </div>
 
             {message ? <Text className={styles.message}>{message}</Text> : null}

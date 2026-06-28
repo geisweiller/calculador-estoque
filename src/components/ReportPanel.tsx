@@ -15,11 +15,13 @@ const useStyles = makeStyles({
     paddingBottom: '16px',
     paddingLeft: '16px',
     '@media (max-width: 720px)': {
+      gridRow: '2',
       marginTop: '4px',
       paddingTop: '12px',
       paddingRight: '12px',
       paddingBottom: '12px',
       paddingLeft: '12px',
+      minHeight: 0,
     },
   },
   header: {
@@ -50,8 +52,8 @@ const useStyles = makeStyles({
     paddingBottom: '12px',
     paddingLeft: '12px',
     '@media (max-width: 720px)': {
-      minHeight: '180px',
-      maxHeight: '280px',
+      minHeight: '96px',
+      maxHeight: '140px',
       fontSize: '12px',
     },
   },
