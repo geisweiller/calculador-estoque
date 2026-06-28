@@ -1,8 +1,16 @@
 import { renderHook } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useInventoryReport } from '../useInventoryReport'
 
 describe('useInventoryReport', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('builds rows, totals and a text report from products and quantities', () => {
     vi.setSystemTime(new Date('2026-06-27T12:00:00-03:00'))
 
@@ -22,7 +30,9 @@ describe('useInventoryReport', () => {
     ])
     expect(result.current.filledRows).toHaveLength(2)
     expect(result.current.totalQuantity).toBe(5)
+    expect(result.current.weekdayLabel).toBe('Sábado')
     expect(result.current.report).toContain('RELATÓRIO DE ESTOQUE')
+    expect(result.current.report).toContain('Dia da semana: Sábado')
     expect(result.current.report).toContain('Produtos preenchidos: 2')
     expect(result.current.report).toContain('Quantidade total: 5')
     expect(result.current.report).toContain('   2  COLA')

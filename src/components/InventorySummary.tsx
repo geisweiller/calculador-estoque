@@ -2,18 +2,21 @@ import { Text, tokens } from '@fluentui/react-components'
 import { makeStyles, shorthands } from '@griffel/react'
 
 type InventorySummaryProps = {
+  dateLabel: string
   filledProducts: number
   productsCount: number
   totalQuantity: number
+  weekdayLabel: string
 }
 
 const useStyles = makeStyles({
   summary: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
     gap: '12px',
     marginBottom: '18px',
     '@media (max-width: 520px)': {
+      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
       gap: '8px',
       marginBottom: '12px',
     },
@@ -55,12 +58,21 @@ const useStyles = makeStyles({
       fontSize: '20px',
     },
   },
+  weekdayValue: {
+    fontSize: '20px',
+    overflowWrap: 'anywhere',
+    '@media (max-width: 520px)': {
+      fontSize: '18px',
+    },
+  },
 })
 
 export function InventorySummary({
+  dateLabel,
   filledProducts,
   productsCount,
   totalQuantity,
+  weekdayLabel,
 }: InventorySummaryProps) {
   const styles = useStyles()
 
@@ -77,6 +89,12 @@ export function InventorySummary({
       <div className={styles.stat}>
         <Text className={styles.label}>Total</Text>
         <Text className={styles.value}>{totalQuantity}</Text>
+      </div>
+      <div className={styles.stat}>
+        <Text className={styles.label}>{dateLabel}</Text>
+        <Text className={`${styles.value} ${styles.weekdayValue}`}>
+          {weekdayLabel}
+        </Text>
       </div>
     </section>
   )

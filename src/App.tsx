@@ -77,10 +77,14 @@ function App() {
     removeQuantity,
     setQuantity,
   } = useQuantities()
-  const { data, filledRows, report, totalQuantity } = useInventoryReport(
-    products,
-    quantities,
-  )
+  const {
+    data,
+    dateLabel,
+    filledRows,
+    report,
+    totalQuantity,
+    weekdayLabel,
+  } = useInventoryReport(products, quantities)
   const visibleData = useMemo(() => {
     const normalizedSearch = normalizeSearch(search.trim())
     const filteredData = normalizedSearch
@@ -119,9 +123,11 @@ function App() {
           />
 
           <InventorySummary
+            dateLabel={dateLabel}
             filledProducts={filledRows.length}
             productsCount={products.length}
             totalQuantity={totalQuantity}
+            weekdayLabel={weekdayLabel}
           />
 
           <ProductSearch
