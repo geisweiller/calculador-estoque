@@ -1,5 +1,5 @@
 import { FluentProvider, webLightTheme } from '@fluentui/react-components'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { ProductManagerDialog } from '../ProductManagerDialog'
@@ -30,8 +30,11 @@ describe('ProductManagerDialog', () => {
     const props = renderDialog()
 
     await user.click(screen.getByRole('button', { name: 'Produtos' }))
+    await waitFor(() =>
+      expect(screen.getByText('Adicionar')).toBeInTheDocument(),
+    )
     await user.type(screen.getByLabelText('Nome do novo produto'), 'MANTA 100')
-    await user.click(screen.getByRole('button', { name: 'Adicionar' }))
+    await user.click(screen.getByText('Adicionar'))
 
     expect(props.onAddProduct).toHaveBeenCalledWith('MANTA 100')
   })
@@ -41,7 +44,7 @@ describe('ProductManagerDialog', () => {
     const props = renderDialog()
 
     await user.click(screen.getByRole('button', { name: 'Produtos' }))
-    const glueInput = screen.getByDisplayValue('COLA')
+    const glueInput = await screen.findByDisplayValue('COLA')
     const row = glueInput.closest('div')
 
     expect(row).not.toBeNull()
