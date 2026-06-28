@@ -18,7 +18,6 @@ type InventoryHeaderProps = {
   report: string
   onAddProduct: (name: string) => boolean
   onClearQuantities: () => void
-  onImportProducts: (source: unknown) => Product[]
   onRemoveProduct: (id: string) => void
   onRenameProduct: (id: string, name: string) => void
 }
@@ -73,7 +72,6 @@ export function InventoryHeader({
   report,
   onAddProduct,
   onClearQuantities,
-  onImportProducts,
   onRemoveProduct,
   onRenameProduct,
 }: InventoryHeaderProps) {
@@ -92,7 +90,6 @@ export function InventoryHeader({
         <ProductManagerDialog
           products={products}
           onAddProduct={onAddProduct}
-          onImportProducts={onImportProducts}
           onRemoveProduct={onRemoveProduct}
           onRenameProduct={onRenameProduct}
         />

@@ -55,25 +55,8 @@ export function useQuantities() {
     })
   }
 
-  const keepOnlyQuantities = (ids: string[]) => {
-    const allowedIds = new Set(ids)
-    setQuantities((currentQuantities) =>
-      Object.entries(currentQuantities).reduce<Record<string, number>>(
-        (nextQuantities, [id, quantity]) => {
-          if (allowedIds.has(id)) {
-            nextQuantities[id] = quantity
-          }
-
-          return nextQuantities
-        },
-        {},
-      ),
-    )
-  }
-
   return {
     clearQuantities,
-    keepOnlyQuantities,
     quantities,
     removeQuantity,
     setQuantity,

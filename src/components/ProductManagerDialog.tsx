@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import {
   Button,
   Dialog,
@@ -13,7 +13,6 @@ import {
 } from '@fluentui/react-components'
 import {
   Add24Regular,
-  ArrowUpload24Regular,
   Delete24Regular,
   Dismiss24Regular,
 } from '@fluentui/react-icons'
@@ -23,7 +22,6 @@ import type { Product } from '../types'
 type ProductManagerDialogProps = {
   products: Product[]
   onAddProduct: (name: string) => boolean
-  onImportProducts: (source: unknown) => Product[]
   onRemoveProduct: (id: string) => void
   onRenameProduct: (id: string, name: string) => void
 }
@@ -62,15 +60,12 @@ const useStyles = makeStyles({
   },
   form: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(0, 1fr) auto auto',
+    gridTemplateColumns: 'minmax(0, 1fr) auto',
     gap: '8px',
     marginBottom: '12px',
     '@media (max-width: 640px)': {
       gridTemplateColumns: '1fr',
     },
-  },
-  hiddenFileInput: {
-    display: 'none',
   },
   list: {
     display: 'grid',
@@ -97,53 +92,22 @@ const useStyles = makeStyles({
   iconOnlyButton: {
     minWidth: '44px',
   },
-  message: {
-    display: 'block',
-    marginBottom: '12px',
-  },
 })
 
 export function ProductManagerDialog({
   products,
   onAddProduct,
-  onImportProducts,
   onRemoveProduct,
   onRenameProduct,
 }: ProductManagerDialogProps) {
   const styles = useStyles()
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [newProductName, setNewProductName] = useState('')
-  const [message, setMessage] = useState('')
 
   const addProduct = () => {
     const wasAdded = onAddProduct(newProductName)
     if (wasAdded) {
       setNewProductName('')
-      setMessage('')
-    }
-  }
-
-  const importProducts = async (file: File | undefined) => {
-    if (!file) {
-      return
-    }
-
-    try {
-      const importedProducts = onImportProducts(
-        JSON.parse(await file.text()) as unknown,
-      )
-      setMessage(
-        importedProducts.length
-          ? `${importedProducts.length} produtos importados.`
-          : 'Arquivo sem produtos válidos.',
-      )
-    } catch {
-      setMessage('Não foi possível ler o arquivo.')
-    } finally {
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''
-      }
     }
   }
 
@@ -199,24 +163,7 @@ export function ProductManagerDialog({
               >
                 Adicionar
               </Button>
-              <Button
-                icon={<ArrowUpload24Regular />}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                Importar
-              </Button>
-              <input
-                ref={fileInputRef}
-                accept="application/json"
-                className={styles.hiddenFileInput}
-                type="file"
-                onChange={(event) => {
-                  void importProducts(event.target.files?.[0])
-                }}
-              />
             </div>
-
-            {message ? <Text className={styles.message}>{message}</Text> : null}
 
             <div className={styles.list}>
               {products.map((product) => (

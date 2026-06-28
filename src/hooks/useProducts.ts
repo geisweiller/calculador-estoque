@@ -55,20 +55,8 @@ export function useProducts() {
     )
   }
 
-  const importProducts = (source: unknown) => {
-    const importedProducts = parseProducts(source)
-    if (!importedProducts.length) {
-      return []
-    }
-
-    const sortedProducts = sortProducts(importedProducts)
-    setProducts(sortedProducts)
-    return sortedProducts
-  }
-
   return {
     addProduct,
-    importProducts,
     products,
     removeProduct,
     renameProduct,

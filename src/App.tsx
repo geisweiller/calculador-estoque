@@ -55,14 +55,12 @@ function App() {
   const styles = useStyles()
   const {
     addProduct,
-    importProducts,
     products,
     removeProduct,
     renameProduct,
   } = useProducts()
   const {
     clearQuantities,
-    keepOnlyQuantities,
     quantities,
     removeQuantity,
     setQuantity,
@@ -71,12 +69,6 @@ function App() {
     products,
     quantities,
   )
-
-  const importProductsAndSyncQuantities = (source: unknown) => {
-    const importedProducts = importProducts(source)
-    keepOnlyQuantities(importedProducts.map((product) => product.id))
-    return importedProducts
-  }
 
   const removeProductAndQuantity = (id: string) => {
     removeProduct(id)
@@ -92,7 +84,6 @@ function App() {
             report={report}
             onAddProduct={addProduct}
             onClearQuantities={clearQuantities}
-            onImportProducts={importProductsAndSyncQuantities}
             onRemoveProduct={removeProductAndQuantity}
             onRenameProduct={renameProduct}
           />
