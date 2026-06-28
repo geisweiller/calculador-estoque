@@ -1,9 +1,11 @@
+import { useMemo, useState } from 'react'
 import { FluentProvider, tokens, webLightTheme } from '@fluentui/react-components'
 import { makeStyles } from '@griffel/react'
 import { InventoryHeader } from './components/InventoryHeader'
 import { InventorySummary } from './components/InventorySummary'
 import { InventoryTable } from './components/InventoryTable'
 import { MobileProductList } from './components/MobileProductList'
+import { ProductSearch } from './components/ProductSearch'
 import { ReportPanel } from './components/ReportPanel'
 import { useInventoryReport } from './hooks/useInventoryReport'
 import { useProducts } from './hooks/useProducts'
@@ -51,8 +53,18 @@ const useStyles = makeStyles({
   },
 })
 
+const normalizeSearch = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLocaleLowerCase('pt-BR')
+
+type SortDirection = 'asc' | 'desc'
+
 function App() {
   const styles = useStyles()
+  const [search, setSearch] = useState('')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const {
     addProduct,
     products,
@@ -69,6 +81,24 @@ function App() {
     products,
     quantities,
   )
+  const visibleData = useMemo(() => {
+    const normalizedSearch = normalizeSearch(search.trim())
+    const filteredData = normalizedSearch
+      ? data.filter((row) =>
+          normalizeSearch(row.product).includes(normalizedSearch),
+        )
+      : data
+
+    return [...filteredData].sort((firstRow, secondRow) => {
+      const directionMultiplier = sortDirection === 'asc' ? 1 : -1
+      return (
+        firstRow.product.localeCompare(secondRow.product, 'pt-BR', {
+          numeric: true,
+          sensitivity: 'base',
+        }) * directionMultiplier
+      )
+    })
+  }, [data, search, sortDirection])
 
   const removeProductAndQuantity = (id: string) => {
     removeProduct(id)
@@ -94,11 +124,24 @@ function App() {
             totalQuantity={totalQuantity}
           />
 
+          <ProductSearch
+            resultCount={visibleData.length}
+            search={search}
+            sortDirection={sortDirection}
+            totalCount={products.length}
+            onSearchChange={setSearch}
+            onToggleSortDirection={() =>
+              setSortDirection((currentDirection) =>
+                currentDirection === 'asc' ? 'desc' : 'asc',
+              )
+            }
+          />
+
           <section className={styles.workArea}>
-            <InventoryTable data={data} onSetQuantity={setQuantity} />
+            <InventoryTable data={visibleData} onSetQuantity={setQuantity} />
             <MobileProductList
-              data={data}
-              productsCount={products.length}
+              data={visibleData}
+              productsCount={visibleData.length}
               onSetQuantity={setQuantity}
             />
             <ReportPanel report={report} />

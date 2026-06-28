@@ -13,6 +13,8 @@ const useStyles = makeStyles({
     display: 'none',
     '@media (max-width: 720px)': {
       display: 'grid',
+      alignContent: 'start',
+      gridAutoRows: '68px',
       gap: '8px',
       height: '100%',
       minHeight: 0,
@@ -26,7 +28,9 @@ const useStyles = makeStyles({
     gridTemplateColumns: 'minmax(0, 1fr) 104px',
     alignItems: 'center',
     gap: '10px',
-    minHeight: '62px',
+    height: '68px',
+    maxHeight: '68px',
+    overflow: 'hidden',
     backgroundColor: '#ffffff',
     ...shorthands.border('1px', 'solid', '#dfe5da'),
     ...shorthands.borderRadius('8px'),
@@ -36,12 +40,16 @@ const useStyles = makeStyles({
     paddingLeft: '12px',
   },
   product: {
+    display: '-webkit-box',
     minWidth: 0,
     color: tokens.colorNeutralForeground1,
     fontSize: '14px',
     fontWeight: 700,
     lineHeight: '1.25',
+    overflow: 'hidden',
     overflowWrap: 'anywhere',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 2,
   },
   meta: {
     display: 'block',
@@ -52,6 +60,7 @@ const useStyles = makeStyles({
   },
   quantityInput: {
     width: '100%',
+    height: '32px',
     '& input': {
       textAlign: 'center',
     },
