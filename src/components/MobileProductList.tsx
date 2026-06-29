@@ -17,7 +17,7 @@ const useStyles = makeStyles({
       gridAutoRows: '68px',
       gap: '8px',
       height: '100%',
-      minHeight: 0,
+      minHeight: '372px',
       overflow: 'auto',
       overscrollBehavior: 'contain',
       paddingRight: '2px',

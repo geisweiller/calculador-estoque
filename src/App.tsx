@@ -46,7 +46,7 @@ const useStyles = makeStyles({
       gridTemplateColumns: '1fr',
     },
     '@media (max-width: 720px)': {
-      gridTemplateRows: 'minmax(0, 1fr) auto',
+      gridTemplateRows: 'minmax(372px, 1fr) auto',
       alignItems: 'stretch',
       gap: '10px',
     },
