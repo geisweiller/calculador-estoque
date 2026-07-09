@@ -100,6 +100,19 @@ export const defaultProductNames = [
   'ZIPER PRETO',
 ]
 
+export const productMigrations = [
+  {
+    id: '2026-07-07-holland-suede-products',
+    productNames: [
+      'SUED HOLLAND BEGE CASTOR',
+      'SUED HOLLAND BICUBA',
+      'SUED HOLLAND CONCE',
+      'SUED HOLLAND JET BLACK',
+      'SUED HOLLAND LUCY',
+    ],
+  },
+]
+
 export const defaultProducts = defaultProductNames.map<Product>((name, index) => ({
   id: `default-${index}`,
   name,

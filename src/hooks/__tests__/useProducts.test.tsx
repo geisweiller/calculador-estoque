@@ -24,6 +24,26 @@ describe('useProducts', () => {
     expect(result.current.products[0].name).toBe('ABRAÇADEIRA')
   })
 
+  it('adds pending default product migrations to stored product lists', () => {
+    localStorage.setItem(
+      'calculador-estoque:products',
+      JSON.stringify([{ id: 'glue', name: 'COLA' }]),
+    )
+
+    const { result } = renderHook(() => useProducts())
+
+    expect(result.current.products.map((product) => product.name)).toEqual(
+      expect.arrayContaining([
+        'COLA',
+        'SUED HOLLAND BEGE CASTOR',
+        'SUED HOLLAND BICUBA',
+        'SUED HOLLAND CONCE',
+        'SUED HOLLAND JET BLACK',
+        'SUED HOLLAND LUCY',
+      ]),
+    )
+  })
+
   it('renames and removes products', () => {
     const { result } = renderHook(() => useProducts())
     const firstProductId = result.current.products[0].id
